@@ -109,25 +109,33 @@ const ImageManager = () => {
   };
 
   // Replace Image Handler
+  // Replace Image Handler
   const replaceImage = (oldImageFullPath) => {
     if (!user || !newImage) return;
 
+    // Decode and extract the image name from the full path
     const oldImageName = decodeURIComponent(
-      oldImageFullPath.split("%2F").pop()
+      oldImageFullPath.split("%2F").pop().split("?")[0]
     );
     const oldImageRef = ref(storage, `${user.uid}/images/${oldImageName}`);
 
     setLoading(true);
+
+    // First delete the old image
     deleteObject(oldImageRef)
       .then(() => {
         console.log(`Deleted old image: ${oldImageName}`);
+
+        // Create a new reference for the new image
         const newImageRef = ref(storage, `${user.uid}/images/${oldImageName}`);
+
+        // Upload the new image with the same name
         return uploadBytes(newImageRef, newImage);
       })
       .then(() => {
         console.log("New image uploaded successfully with the same name.");
-        fetchImages();
-        setNewImage(null);
+        fetchImages(); // Refresh the images after upload
+        setNewImage(null); // Reset state
         setImageToReplace(null);
       })
       .catch((error) => {
