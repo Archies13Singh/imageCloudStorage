@@ -1,0 +1,103 @@
+/* Logo.css */
+
+:root {
+  --logo-size: 60px; /* Default size */
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: calc(var(--logo-size) / 10) calc(var(--logo-size) / 2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  gap: calc(var(--logo-size) / 4);
+  position: relative;
+  font-size: calc(var(--logo-size) / 2); /* Adjust text size based on logo size */
+}
+
+.camera-icon {
+  position: relative;
+  width: var(--logo-size);
+  height: var(--logo-size);
+  cursor: pointer;
+  animation: click 2s infinite;
+}
+
+.camera-body {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, #3ba99c 40%, #2c9c9c 60%, #127547 80%);
+  border-radius: 10px;
+  position: relative;
+}
+
+.camera-lens {
+  width: 40%;
+  height: 40%;
+  background: #ffffff;
+  border-radius: 50%;
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  animation: lensClick 2s infinite;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.logo-text-main {
+  font-size: calc(var(--logo-size) / 2.4); /* Adjusted based on logo size */
+  font-weight: bold;
+  color: #3ba99c;
+}
+
+.logo-text-sub {
+  font-size: calc(var(--logo-size) / 4.3); /* Adjusted based on logo size */
+  font-weight: 500;
+  color: #ffffff;
+  background: linear-gradient(45deg, #3ba99c, #2c9c9c);
+  padding: calc(var(--logo-size) / 12) calc(var(--logo-size) / 6);
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid #2c9c9c;
+  display: inline-block;
+  position: relative;
+}
+
+.logo-text-sub::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #240657;
+  transition: width 0.3s ease-in-out;
+}
+
+.logo-text-sub:hover::after {
+  width: 100%;
+}
+
+@keyframes click {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+@keyframes lensClick {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.8); }
+}

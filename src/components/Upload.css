@@ -1,0 +1,124 @@
+/* UploadPopup.css */
+.upload-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    padding: 20px;
+    z-index: 1000;
+    text-align: center;
+  }
+  
+  .popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .popup-heading{
+    font-family: "Times New Roman";
+    color: "#3BA99C";
+    font-weight: "700";
+    letter-spacing: "0.5px";
+    text-shadow: "2px 2px 4px rgba(0, 0, 0, 0.3)";
+    background: "linear-gradient(135deg, #3BA99C 30%, #006D6F 90%)";
+    -webkit-background-clip: "text";
+    -webkit-text-fill-color: "transparent";
+    border-radius: "5px";
+    display: "inline-block";
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .dropzone-container {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  
+  .popup-actions button {
+    margin: 5px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .cancel-button {
+    background-color: #dc3545;
+    color: white;
+  }
+
+  .image-preview {
+    margin-top: 15px;
+    text-align: center;
+  }
+  
+  .image-preview img {
+    max-width: 100%;
+    max-height: 300px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+  }
+  
+
+  @media (max-width: 600px){
+    .upload-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 300px;
+      padding: 20px;
+      z-index: 1000;
+      text-align: center;
+    }
+  }
+  @media (max-width: 400px){
+    .upload-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 250px;
+      padding: 20px;
+      z-index: 1000;
+      text-align: center;
+    }
+  }
+  @media (max-width: 250px){
+    .upload-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 200px;
+      padding:10px;
+      z-index: 1000;
+      text-align: center;
+    }
+  }

@@ -1,0 +1,240 @@
+.lottie-container {
+  display: block;
+}
+
+@media (max-width: 800px) {
+  .lottie-container {
+    display: none;
+  }
+}
+
+.textField {
+  background-color: aliceblue;
+  border: 1px solid aliceblue;
+  border-radius: 1rem;
+}
+
+.no-border .MuiOutlinedInput-notchedOutline {
+  border: none;
+}
+
+.no-border.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border: none;
+}
+
+.no-border .MuiInputLabel-root {
+  transform: none; 
+  top: 15px; 
+  left: 11px; 
+  text-align: center;
+}
+
+.no-border .MuiInputLabel-shrink {
+  transform: none; /* Keep label in place when focused */
+}
+
+.hide-placeholder-on-focus::placeholder {
+  opacity: 1; /* Ensure placeholder is visible when not focused */
+}
+
+.hide-placeholder-on-focus:focus::placeholder {
+  opacity: 0; /* Hide placeholder on focus */
+}
+
+.password-container {
+  position: relative;
+}
+
+.password-input {
+  width: 100%;
+}
+
+.password-eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.auth-wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  max-width: 1200px;
+  border-radius: 2rem;
+  max-height: 80vh; 
+  height: auto;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0px 0px 3px 0px #808080; 
+}
+
+.auth-form {
+  flex: 1;
+  padding: 1rem;
+  background: linear-gradient(to right, #000000, #444444);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+
+.textField {
+  margin-bottom: 1rem;
+}
+
+.submit-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.submit-button-text {
+  color: #3ba99c;
+}
+
+.divider-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.divider {
+  flex: 1;
+  border: none;
+  border-top: 1px solid aliceblue;
+  margin: 0;
+}
+
+.divider-text {
+  color: aliceblue;
+  margin: 0 1rem;
+}
+
+.google-signin-img {
+  width: 100%;
+  height: auto;
+  max-height: 50px;
+  object-fit: contain;
+  align-self: center;
+  cursor: pointer;
+}
+
+.toggle-signup-login {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+
+}
+
+.toggle-signup-login-text {
+  color: aliceblue;
+}
+
+.toggle-signup-login-link {
+  cursor: pointer;
+  color: #3ba99c;
+}
+
+.lottie-container {
+  flex: 1;
+  flex-direction: column;
+  padding: 1rem;
+  background: linear-gradient(to right, #3ba99c, #c4ede8);
+}
+
+.logo-img {
+  width: 100%;
+  height: auto;
+  max-height: 100px;
+  object-fit: contain;
+  align-self: center;
+}
+
+/* Creating starfield */
+.background-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh; /* Take up full viewport height */
+  background: radial-gradient(circle, #000, #111);
+  overflow: hidden;
+  position: relative; /* Ensure child positioning works */
+}
+
+.background-container .star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  opacity: 0.5;
+  animation: twinkle 2s infinite, colorChange 10s infinite,
+    moveStars 100s linear infinite; /* Color-changing and moving animation */
+}
+
+/* Small stars */
+.background-container .star.small {
+  width: 2px;
+  height: 2px;
+}
+
+/* Medium stars */
+.background-container .star.medium {
+  width: 3px;
+  height: 3px;
+}
+
+/* Large stars */
+.background-container .star.large {
+  width: 4px;
+  height: 4px;
+}
+
+/* Nebula effect */
+.background-container .nebula {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  border-radius: 50%;
+  animation: nebulaMovement 60s linear infinite;
+  mix-blend-mode: overlay;
+  opacity: 0.4;
+}
+
+/* Nebula positioning */
+.background-container .nebula.one {
+  top: 10%;
+  left: 20%;
+}
+
+.background-container .nebula.two {
+  top: 50%;
+  left: 60%;
+}
+
+.background-container .nebula.three {
+  top: 80%;
+  left: 30%;
+}
+
+
+@media (max-width: 600px){
+  .auth-form {
+    gap: 0.2rem;
+  }
+  
+}
+@media (max-width: 400px){
+  .auth-form {
+    gap: 0rem;
+  }
+  
+}

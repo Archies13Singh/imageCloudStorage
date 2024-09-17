@@ -1,0 +1,76 @@
+:root {
+  --background-color: #ffffff; 
+  --text-color: #000000; 
+  --border-color: #333333; 
+  --icon-color: #000100;
+}
+
+/* Dark Mode */
+.dark-mode {
+  --background-color: #262826;
+  --text-color: #ffffff; 
+  --border-color: #cccccc; 
+  --icon-color: #ffffff;
+}
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+/* Keyframe for moving shapes */
+@keyframes moveShapes {
+  0% {
+    transform: translateX(-100%) translateY(-100%);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%);
+  }
+}
+
+/* Keyframes for star movement */
+@keyframes moveStars {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(100px, 100px);
+  }
+}
+
+/* Keyframes for twinkling effect */
+@keyframes twinkle {
+  0% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+
+/* Keyframes for changing star colors */
+@keyframes colorChange {
+  0% {
+    color: #fff;
+  }
+  50% {
+    color: #f0f;
+  }
+  100% {
+    color: #fff;
+  }
+}
+
+/* Keyframes for nebula movement */
+@keyframes nebulaMovement {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* 3BA99C */
