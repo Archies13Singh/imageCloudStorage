@@ -19,7 +19,6 @@ import {
   List,
   ListItem,
   IconButton,
-  CircularProgress,
   Box,
   AppBar,
   Toolbar,
@@ -28,6 +27,7 @@ import {
   useTheme,
   Typography,
   Tooltip,
+  TextField,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -42,26 +42,32 @@ import { DarkModeSwitch } from "../utils/DarkMode";
 import { UploadPopup } from "./UploadPopUp";
 import ConfirmationMsg from "../utils/Snacker";
 import Lottie from "lottie-react";
+import SearchIcon from "@mui/icons-material/Search";
+import SearchOffIcon from "@mui/icons-material/SearchOff";
 import LoadingAni from "../assets/Loading.json";
+import NoDataFound from "../assets/no_data_found.json";
+import NoFiles from "../assets/NoFiles.json";
 
 const ImageManager = () => {
   // State declarations
-  const [imageUpload, setImageUpload] = useState(null);
+  const [noResultsFound, setNoResultsFound] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [imageURLs, setImageURLs] = useState([]);
   const [user, setUser] = useState(null);
   const [imageToReplace, setImageToReplace] = useState(null);
   const [newImage, setNewImage] = useState(null);
+  const [searchLoading, setSearchLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [imageToUpload, setImageToUpload] = useState(null);
+  const [isSearchOpen, setIsSearchIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const isDarkMode = useSelector((state) => state.isDarkMode);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.between("sm", "md"));
 
   // Side effects
   useEffect(() => {
@@ -73,6 +79,46 @@ const ImageManager = () => {
     });
     return () => unsubscribe();
   }, [user]);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      if (!user) return;
+
+      const imagesRef = ref(storage, `${user.uid}/images`);
+      setLoading(true);
+      setSearchLoading(true); // Start the search loader
+
+      try {
+        const result = await listAll(imagesRef);
+        const urlPromises = result.items.map((item) => getDownloadURL(item));
+        const metaDataPromises = result.items.map((item) => getMetadata(item));
+
+        const [urls, metaData] = await Promise.all([
+          Promise.all(urlPromises),
+          Promise.all(metaDataPromises),
+        ]);
+        const filteredImages = urls
+          .map((url, idx) => ({
+            url,
+            size: metaData[idx]?.size,
+            name: decodeURIComponent(url.split("/").pop().split("?")[0]),
+          }))
+          .filter((image) =>
+            image.name.toLowerCase().includes(searchQuery.toLowerCase())
+          );
+
+        setImageURLs(filteredImages);
+        setNoResultsFound(filteredImages.length === 0 && searchQuery !== "");
+      } catch (error) {
+        console.error("Error fetching images: ", error);
+      } finally {
+        setLoading(false);
+        setSearchLoading(false); // End the search loader
+      }
+    };
+
+    fetchImages();
+  }, [user, searchQuery]);
 
   useEffect(() => {
     const savedMode = localStorage.getItem("theme") === "dark";
@@ -109,11 +155,9 @@ const ImageManager = () => {
   };
 
   // Replace Image Handler
-  // Replace Image Handler
   const replaceImage = (oldImageFullPath) => {
     if (!user || !newImage) return;
 
-    // Decode and extract the image name from the full path
     const oldImageName = decodeURIComponent(
       oldImageFullPath.split("%2F").pop().split("?")[0]
     );
@@ -121,12 +165,9 @@ const ImageManager = () => {
 
     setLoading(true);
 
-    // First delete the old image
     deleteObject(oldImageRef)
       .then(() => {
         console.log(`Deleted old image: ${oldImageName}`);
-
-        // Create a new reference for the new image
         const newImageRef = ref(storage, `${user.uid}/images/${oldImageName}`);
 
         // Upload the new image with the same name
@@ -166,6 +207,7 @@ const ImageManager = () => {
         }));
         setImageURLs(imageDetails);
         setImageToReplace(null);
+        setNoResultsFound(false);
       })
       .catch((error) => {
         console.error("Error fetching images: ", error);
@@ -238,14 +280,68 @@ const ImageManager = () => {
             <Box display="flex" alignItems="center">
               <Logo size="40px" />
             </Box>
-
+            <Container>
+              {isSearchOpen && !isSmallScreen && (
+                <TextField
+                  label="Search File"
+                  variant="filled"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  // color="black"
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "15px",
+                      border: "1px solid #ffffff",
+                      "&:before": {
+                        display: "none",
+                      },
+                      "&:after": {
+                        display: "none",
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "white",
+                      fontFamily: "Times New Roman",
+                    },
+                    "& .MuiInputBase-input": {
+                      color: "white",
+                      height: "auto",
+                      fontSize: "16px",
+                      fontFamily: "Times New Roman",
+                    },
+                    "& .MuiInputLabel-shrink": {
+                      color: "lightgray",
+                      fontFamily: "Times New Roman",
+                    },
+                    width: "100%",
+                  }}
+                />
+              )}
+            </Container>
             {/* Right side - Buttons */}
             <Box
               style={{
                 display: "flex",
                 gap: "2rem",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
+              {isSearchOpen ? (
+                <Tooltip>
+                  <SearchOffIcon
+                    style={{ fontSize: "34px", cursor: "pointer" }}
+                    onClick={() => setIsSearchIsOpen(false)}
+                  />
+                </Tooltip>
+              ) : (
+                <Tooltip>
+                  <SearchIcon
+                    style={{ fontSize: "34px", cursor: "pointer" }}
+                    onClick={() => setIsSearchIsOpen(true)}
+                  />
+                </Tooltip>
+              )}
               <Tooltip title="switch theme">
                 <DarkModeSwitch
                   checked={isDarkMode}
@@ -261,6 +357,45 @@ const ImageManager = () => {
           </Box>
         </Toolbar>
       </AppBar>
+      <Container>
+        {/* for mobile screen */}
+        {isSearchOpen && isSmallScreen && (
+          <TextField
+            label="Search File"
+            variant="filled"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            sx={{
+              "& .MuiInputBase-root": {
+                borderRadius: "15px",
+                backgroundColor: "transparent",
+                border: "3px solid var(--theme-border-color)",
+                "&:before": {
+                  display: "none",
+                },
+                "&:after": {
+                  display: "none",
+                },
+              },
+              "& .MuiInputLabel-root": {
+                color: "var(--text-color)",
+                fontFamily: "Times New Roman",
+              },
+              "& .MuiInputBase-input": {
+                color: "var(--text-color)",
+                fontFamily: "Times New Roman",
+              },
+              "& .MuiInputLabel-shrink": {
+                color: "var(--theme-text-color )",
+                fontFamily: "Times New Roman",
+              },
+              width: "100%",
+              fontSize: "14px",
+              marginTop: "12px",
+            }}
+          />
+        )}
+      </Container>
       <Container>
         <Button
           variant="contained"
@@ -286,7 +421,7 @@ const ImageManager = () => {
       </Container>
 
       <div style={{ padding: "20px" }}>
-        {loading ? (
+        {searchLoading || loading ? (
           <Container style={{ display: "flex", justifyContent: "center" }}>
             <Lottie
               animationData={LoadingAni}
@@ -297,6 +432,51 @@ const ImageManager = () => {
                 alignSelf: "center",
               }}
             />
+          </Container>
+        ) : noResultsFound ? (
+          <Container
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Lottie
+              animationData={NoDataFound}
+              loop
+              style={{
+                width: isSmallScreen ? "100%" : "30%",
+                height: isSmallScreen ? "100%" : "30%",
+                alignSelf: "center",
+              }}
+            />
+            <Typography variant="h5" style={{ fontFamily: "Times New Roman" }}>
+              No such file available
+            </Typography>
+          </Container>
+        ) : imageURLs.length === 0 ? (
+          <Container
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Lottie
+              animationData={NoFiles}
+              loop
+              style={{
+                width: isSmallScreen ? "100%" : "30%",
+                height: isSmallScreen ? "100%" : "30%",
+                alignSelf: "center",
+              }}
+            />
+            <Typography variant="subtitle1" style={{ fontFamily: "Times New Roman" }} align="center">
+              Looks like you haven't added any files yet. Click the 'Upload'
+              button to get started! 😎
+            </Typography>
           </Container>
         ) : (
           <List>

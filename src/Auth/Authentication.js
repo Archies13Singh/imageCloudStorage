@@ -287,12 +287,14 @@ const Authentication = ({ setUser }) => {
                   onClick={togglePasswordVisibility}
                   className="password-eye-icon"
                   alt="Hide Password"
+                  sx={{color:"var(--theme-logo-color-white-background"}}
                 />
               ) : (
                 <VisibilityOff
                   onClick={togglePasswordVisibility}
                   className="password-eye-icon"
                   alt="Show Password"
+                  sx={{color:"var(--theme-logo-color-white-background"}}
                 />
               )}
             </div>

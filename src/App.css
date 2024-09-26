@@ -3,6 +3,9 @@
   --text-color: #000000; 
   --border-color: #333333; 
   --icon-color: #000100;
+  --theme-border-color : #3BA99C;
+  --theme-text-color : #3BA99C;
+  --theme-logo-color-white-background : "#000000"
 }
 
 /* Dark Mode */
@@ -11,6 +14,9 @@
   --text-color: #ffffff; 
   --border-color: #cccccc; 
   --icon-color: #ffffff;
+  --theme-border-color : #ffffff;
+  --theme-text-color : #ffffff;
+  --theme-logo-color-white-background : "#000000"
 }
 body {
   background-color: var(--background-color);
